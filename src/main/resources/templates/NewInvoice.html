@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Invoice</title>
+    <style>
+        @page {
+            size: A5;
+            margin: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            padding: 5px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        table th.right, table td.right {
+            text-align: right;
+        }
+
+        table th.center, table td.center {
+            text-align: center;
+        }
+
+        table td.strong {
+            font-weight: bold;
+        }
+
+        .status {
+            text-align: right;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        .left {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <th class="center strong" th:style="'font-size: large;'" th:text="${invoice.storeName}"></th>
+    </tr>
+</table>
+<table>
+    <thead>
+    <tr>
+        <th colspan="2" th:text="'Invoice : ' + ${invoice.invoiceNumber}"></th>
+        <th class="status" colspan="5">Status: Pending</th>
+    </tr>
+    </thead>
+</table>
+<table>
+    <thead>
+    <tr>
+        <th colspan="4">Customer Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="left">Customer Name:</td>
+        <td class="left" th:text="${invoice.customerName}"></td>
+        <td class="left">Firm Name:</td>
+        <td class="left" th:text="${invoice.firmName}"></td>
+    </tr>
+    <tr>
+        <td class="left">Contact Number:</td>
+        <td class="left" th:text="${invoice.contactNumber}"></td>
+        <td class="left">Email ID:</td>
+        <td class="left" th:text="${invoice.email}"></td>
+    </tr>
+    <tr>
+        <td class="left">Delivery Date:</td>
+        <td class="left" th:text="${invoice.deliveryDate}"></td>
+        <td class="left">Order Date:</td>
+        <td class="left" th:text="${invoice.orderDate}"></td>
+    </tr>
+    </tbody>
+</table>
+<table>
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th class="center">Unit Cost</th>
+        <th class="center">Qty</th>
+        <th class="right">Total</th>
+        <th class="right">Discount</th>
+        <th class="center">Tax rate</th>
+        <th class="right">Tax Amount</th>
+        <th class="right">Net Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${invoice.items}">
+        <td class="left strong" th:text="${item.itemName != null ? item.itemName : item.serviceName}"></td>
+        <td class="center" th:text="${item.price + '/' + item.priceType}"></td>
+        <td class="center" th:text="${item.quantity}"></td>
+        <td class="right" th:text="${item.totalAmount}"></td>
+        <td class="right" th:text="${item.discountAmount}"></td>
+        <td class="center" th:text="${item.taxRate}"></td>
+        <td class="right" th:text="${item.taxAmount}"></td>
+        <td class="right" th:text="${item.netAmount}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<table>
+    <tr>
+        <td class="left">Subtotal</td>
+        <td class="right" th:text="${invoice.totalAmount}"></td>
+    </tr>
+    <tr>
+        <td class="left">Total Discount</td>
+        <td class="right" th:text="${invoice.discountAmount}"></td>
+    </tr>
+    <tr>
+        <td class="left">Tax</td>
+        <td class="right" th:text="${invoice.taxAmount}"></td>
+    </tr>
+    <tr>
+        <td class="left">Total</td>
+        <td class="right strong" th:text="${invoice.netAmount}"></td>
+    </tr>
+</table>
+</body>
+</html>

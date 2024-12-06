@@ -1,0 +1,1 @@
+CREATE INDEX idx_order_order_number ON `order_detail` (order_number);
